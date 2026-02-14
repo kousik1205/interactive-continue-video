@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive YouTube Video</title>
+
+<style>
+body{
+  margin:0;
+  background:black;
+  text-align:center;
+  color:white;
+}
+
+#player{
+  width:100%;
+  height:100vh;
+}
+
+#questionBox{
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(0,0,0,0.8);
+  padding:30px;
+  border-radius:10px;
+}
+
+button{
+  padding:15px 30px;
+  margin:10px;
+  font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="player"></div>
+
+<div id="questionBox">
+  <h2>আপনি কি ভিডিওটি চালিয়ে যেতে চান?</h2>
+  <button onclick="continueVideo()">Yes</button>
+  <button onclick="pauseVideo()">No</button>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+
+var player;
+var pausedOnce = false;
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    videoId: '6WteVyZOi6wXJ3a3', // এখানে আপনার Video ID বসান
+    events: {
+      'onReady': onPlayerReady
+    }
+  });
+}
+
+function onPlayerReady(event) {
+  event.target.playVideo();
+  setInterval(checkTime, 1000);
+}
+
+function checkTime(){
+  if(player.getCurrentTime() >= 10 && !pausedOnce){
+    player.pauseVideo();
+    document.getElementById("questionBox").style.display = "block";
+    pausedOnce = true;
+  }
+}
+
+function continueVideo(){
+  document.getElementById("questionBox").style.display = "none";
+  player.playVideo();
+}
+
+function pauseVideo(){
+  document.getElementById("questionBox").style.display = "none";
+  player.pauseVideo();
+}
+
+</script>
+
+</body>
+</html>
