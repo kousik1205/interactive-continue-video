@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Video</title>
+<style>
+body{
+  margin:0;
+  background:black;
+  text-align:center;
+  color:white;
+}
+video{
+  width:100%;
+  height:100vh;
+  object-fit:cover;
+}
+#questionBox{
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(0,0,0,0.8);
+  padding:30px;
+  border-radius:10px;
+}
+button{
+  padding:15px 30px;
+  margin:10px;
+  font-size:18px;
+}
+</style>
+</head>
+<body>
+
+<video id="videoPlayer" autoplay>
+  <source src="video1.mp4" type="video/mp4">
+</video>
+
+<div id="questionBox">
+  <h2>আপনি কি চালিয়ে যেতে চান?</h2>
+  <button onclick="continueVideo()">Yes</button>
+  <button onclick="goToOtherVideo()">No</button>
+</div>
+
+<script>
+let video = document.getElementById("videoPlayer");
+let questionBox = document.getElementById("questionBox");
+let pausedOnce = false;
+
+video.addEventListener("timeupdate", function(){
+  if(video.currentTime >= 10 && !pausedOnce){
+    video.pause();
+    questionBox.style.display = "block";
+    pausedOnce = true;
+  }
+});
+
+function continueVideo(){
+  questionBox.style.display = "none";
+  video.play();
+}
+
+function goToOtherVideo(){
+  video.src = "video2.mp4";
+  questionBox.style.display = "none";
+  video.play();
+}
+</script>
+
+</body>
+</html>
